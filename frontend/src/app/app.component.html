@@ -1,0 +1,36 @@
+<div class="geocode-container">
+  <h1>GeoCoda</h1>
+  <p class="subtitle">Geocode an address</p>
+
+  <form (ngSubmit)="search()" class="search-form">
+    <input
+      type="text"
+      [(ngModel)]="query"
+      name="query"
+      placeholder="Enter an address..."
+      class="search-input"
+      aria-label="Enter an address to geocode"
+    />
+    <button type="submit" [disabled]="loading" class="search-button">
+      {{ loading ? 'Searching...' : 'Search' }}
+    </button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <div *ngIf="searched && !loading && !errorMessage && results.length === 0" class="no-results">
+    No results found.
+  </div>
+
+  <ul *ngIf="results.length > 0" class="results-list">
+    <li *ngFor="let result of results" class="result-item">
+      <div class="result-address">{{ result.formattedAddress }}</div>
+      <div class="result-coords">
+        Lat: {{ result.latitude }}, Lon: {{ result.longitude }}
+      </div>
+      <div *ngIf="result.score" class="result-score">
+        Score: {{ result.score | number: '1.2-2' }}
+      </div>
+    </li>
+  </ul>
+</div>
