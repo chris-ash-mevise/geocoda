@@ -26,6 +26,9 @@ replay_pid*
 # Maven build output
 target/
 
+# Lucene index directory
+index/
+
 # IDE files
 .idea/
 *.iml
