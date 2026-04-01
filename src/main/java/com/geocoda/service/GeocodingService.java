@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -53,12 +54,18 @@ public class GeocodingService {
 
     /**
      * Imports a PBF file into the Lucene index.
+     * The file path is validated to prevent path traversal attacks.
      *
      * @param pbfFilePath path to the .osm.pbf file
      * @return the number of address nodes indexed
      */
     public long importPbf(String pbfFilePath) throws IOException {
-        return parser.parse(new File(pbfFilePath));
+        Path normalized = Path.of(pbfFilePath).toAbsolutePath().normalize();
+        String fileName = normalized.getFileName().toString();
+        if (!fileName.endsWith(".pbf")) {
+            throw new IOException("Only .pbf files are accepted: " + fileName);
+        }
+        return parser.parse(normalized.toFile());
     }
 
     /**
