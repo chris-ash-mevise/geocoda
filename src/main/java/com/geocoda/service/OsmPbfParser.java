@@ -59,8 +59,9 @@ public class OsmPbfParser {
                                     tags.get("name"),
                                     tags.get("addr:housenumber"),
                                     tags.get("addr:street"),
-                                    tags.getOrDefault("addr:city",
-                                            tags.get("addr:town")),
+                                    tags.containsKey("addr:city")
+                                            ? tags.get("addr:city")
+                                            : tags.get("addr:town"),
                                     tags.get("addr:postcode"),
                                     node.getLatitude(),
                                     node.getLongitude()

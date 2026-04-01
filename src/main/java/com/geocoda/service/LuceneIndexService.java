@@ -136,8 +136,6 @@ public class LuceneIndexService {
             return List.of();
         }
 
-        indexWriter.commit();
-
         try (DirectoryReader reader = DirectoryReader.open(directory)) {
             IndexSearcher searcher = new IndexSearcher(reader);
             MultiFieldQueryParser parser = new MultiFieldQueryParser(SEARCH_FIELDS, analyzer);

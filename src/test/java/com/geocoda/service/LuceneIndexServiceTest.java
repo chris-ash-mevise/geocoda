@@ -77,7 +77,7 @@ class LuceneIndexServiceTest {
 
     @Test
     void emptyQueryReturnsNoResults() throws Exception {
-        service.addDocument(null, "1", "Oak Lane", "Austin", "73301",
+        service.addDocument(null, "1", "Oak Lane", "Austin", "78701",
                 30.2672, -97.7431);
         service.commit();
 
