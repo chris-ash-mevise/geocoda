@@ -54,18 +54,23 @@ public class GeocodingService {
 
     /**
      * Imports a PBF file into the Lucene index.
-     * The file path is validated to prevent path traversal attacks.
+     * The file path is resolved relative to the configured data directory
+     * and validated to prevent path traversal attacks.
      *
-     * @param pbfFilePath path to the .osm.pbf file
+     * @param pbfFilePath path to the .osm.pbf file (relative to data dir or absolute)
      * @return the number of address nodes indexed
      */
     public long importPbf(String pbfFilePath) throws IOException {
-        Path normalized = Path.of(pbfFilePath).toAbsolutePath().normalize();
-        String fileName = normalized.getFileName().toString();
+        Path dataDir = Path.of(config.getDataDir()).toAbsolutePath().normalize();
+        Path resolved = dataDir.resolve(pbfFilePath).normalize();
+        if (!resolved.startsWith(dataDir)) {
+            throw new IOException("Path traversal denied: file must be inside " + dataDir);
+        }
+        String fileName = resolved.getFileName().toString();
         if (!fileName.endsWith(".pbf")) {
             throw new IOException("Only .pbf files are accepted: " + fileName);
         }
-        return parser.parse(normalized.toFile());
+        return parser.parse(resolved.toFile());
     }
 
     /**

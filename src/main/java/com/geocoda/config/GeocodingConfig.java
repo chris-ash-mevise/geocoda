@@ -16,6 +16,9 @@ public class GeocodingConfig {
     /** Filesystem path to the OSM PBF data file to import. */
     private String pbfFilePath = "";
 
+    /** Allowed base directory for PBF file imports. */
+    private String dataDir = "data";
+
     /** Maximum number of search results to return. */
     private int maxResults = 10;
 
@@ -33,6 +36,14 @@ public class GeocodingConfig {
 
     public void setPbfFilePath(String pbfFilePath) {
         this.pbfFilePath = pbfFilePath;
+    }
+
+    public String getDataDir() {
+        return dataDir;
+    }
+
+    public void setDataDir(String dataDir) {
+        this.dataDir = dataDir;
     }
 
     public int getMaxResults() {
